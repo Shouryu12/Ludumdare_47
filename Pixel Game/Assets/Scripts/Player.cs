@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     public float Speed;
     public float JumpForce;
 
-    public bool isJumping;
-    public bool doubleJump;
+    public bool isJumping=false;
+    public bool doubleJump=false;
 
     private Rigidbody2D rig;
     private Animator anim;
@@ -30,10 +30,6 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        //Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
-        //Move o personagem em uma posição
-        //transform.position += movement * Time.deltaTime * Speed;
-
         float movement = Input.GetAxis("Horizontal");
 
         rig.velocity = new Vector2(movement * Speed, rig.velocity.y);
@@ -62,16 +58,16 @@ public class Player : MonoBehaviour
         {
             if(!isJumping)
             {
-                rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 doubleJump = true;
+                rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 anim.SetBool("jump", true);
             }
             else
             {
                 if(doubleJump)
                 {
-                    rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                     doubleJump = false;
+                    rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 }
             }
         }
@@ -82,7 +78,8 @@ public class Player : MonoBehaviour
         if(collision.gameObject.layer == 8)
         {
             isJumping = false;
-             anim.SetBool("jump", false);
+            doubleJump = false;
+            anim.SetBool("jump", false);
         }
 
         if(collision.gameObject.tag == "Spike")

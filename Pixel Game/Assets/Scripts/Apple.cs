@@ -28,7 +28,21 @@ public class Apple : MonoBehaviour
             GameController.instance.totalScore += Score;
             GameController.instance.UpdateScoreText();
 
-            Destroy(gameObject, 0.3f);
+            StartCoroutine(WaitAndDeactivate(0.3f));
+
+            //Destroy(gameObject, 0.3f);
+
         }
     }
+
+    private IEnumerator WaitAndDeactivate(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            collected.SetActive(false);
+            gameObject.SetActive(false);
+        }
+    }
+    
 }
